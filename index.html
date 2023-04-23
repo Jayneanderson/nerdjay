@@ -107,7 +107,141 @@
         </div>
     </div>
     <!--Desenvolvendo as funções dentro do JavaScript para gerar o nosso CRUD-->
+    <script>
+        var app = new function () {
+            this.el = document.getElementById('products');
+            this.products = [
+            ];
 
+            this.Count = function (data) {
+                var el = document.getElementById('counter');
+                var name = 'registro';
+
+                if (data) {
+                    if (data > 0) {
+                        name = 'Total';
+                    }
+                    el.innerHTML = name + ':  ' + data;
+                } else {
+                    el.innerHTML = 'Nenhum ' + name;
+                }
+            }
+
+            // Monta a nossa lista de nomes com base na variável que foi setada
+            this.FetchAll = function () {
+                var data = '';
+                if (this.products.length > 0) {
+                    //alert("contou");
+                    //Criando um laço de repetição para montar os registros da tabela
+                    for (var i = 0; i < this.products.length; i++) {
+                        //alert("gera registro");
+                        data += '<tr class="item-list">';
+                        data += '<td class="product-name">' + this.products[i].name + '</td>';
+                        data += '<td class="value">' + this.products[i].price + '</td>';
+                        data += '<td class="quantify">' + this.products[i].quantify + '</td>';
+                        data += '<td class="total">' + (this.products[i].price * this.products[i].quantify).toFixed(2) + '</td>';
+                        data += '<td class="update"><button onclick="app.Edit(' + i + ')"><img src="../assets/img/icon-update.svg"></button></td>';
+                        data += '<td class="delete"><button onclick="app.Delete(' + i + ')"><img src="../assets/img/icon-delete.svg"></button></td>';
+                        data += '</tr>';
+                    }
+                }
+
+                this.Count(this.products.length);
+                return this.el.innerHTML = data;
+            }
+            this.add = function () {
+                var addName = document.getElementById('add-name').value;
+                var price = document.getElementById('unitary-value').value;
+                var ammount = document.getElementById('ammount').value;
+
+                if (addName && price && ammount) {
+                    const newProduct = {
+                        name: addName.trim(),
+                        price: price.trim(),
+                        quantify: ammount.trim()
+                    };
+                    this.products.push(newProduct)
+                    document.getElementById('add-name').value = '';
+                    document.getElementById('unitary-value').value = '';
+                    document.getElementById('ammount').value = '';
+                    this.FetchAll();
+                }
+            }
+            this.Edit = function (item) {
+                var name = document.getElementById('edit-name');
+                var price = document.getElementById('edit-value');
+                var quantify = document.getElementById('edit-ammount');
+                console.log(name.value)
+
+                name.value = this.products[item].name
+                price.value = this.products[item].price
+                quantify.value = this.products[item].quantify
+
+                document.getElementById('spoiler').style.display = 'flex';
+                self = this;
+
+                document.getElementById('saveEdit').onsubmit = function () {
+                    // Obter valor
+                    var editName = name.value;
+                    var editPrice = price.value;
+                    var editQuantify = quantify.value;
+
+                    console.log(item)
+
+                    if (editName && editPrice && editQuantify) {
+                        // Edita o valor
+                        self.products[item].name = editName;
+                        self.products[item].price = editPrice;
+                        self.products[item].quantify = editQuantify;
+                        // Exibe a nova lista
+                        self.FetchAll();
+                        //Ocultar campos
+                        CloseInput();
+                    }
+                }
+            };
+
+            this.Delete = function (item) {
+                this.products.splice(item, 1);
+                this.FetchAll();
+            }
+            this.save = function () {
+                let products = "";
+                let name = "";
+                for (var i = 0; i < this.products.length; i++) {
+                    let product = this.products[i].name
+                    let value = this.products[i].price
+                    let quantify = this.products[i].quantify
+                    products += (i + 1) + " - " + product + " " + value + " " + quantify + "\n";
+                    /*  */
+                }
+                let blob = new Blob([products], { type: 'text/plain;charset=utf-8' });
+                saveAs(blob, "Estoque" + '.txt');
+            }
+        }
+        function CloseInput() {
+            document.getElementById('spoiler').style.display = 'none';
+        }
+
+        Modal = {
+            open() {
+                document
+                    .querySelector('.modal-overlay')
+                    .classList
+                    .add('active')
+
+            },
+            close() {
+                document
+                    .querySelector('.modal-overlay')
+                    .classList
+                    .remove('active')
+            }
+        }
+
+        app.FetchAll();
+
+    </script>
     <!-- <script type="text/javascript" src="../js/index.js"></script> -->
     <script type="text/javascript" src="./saveFile.js"></script>
 </body>
