@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <title>Sistema de controle de Registros - CRUD</title>
+
+    <!--Como ver a cor de um CSS através de um HexaDecimal-->
+
+</head>
+
+<body>
+    <header>
+        <h2 class="subtitle">Nerdjay Eletrônicos</h2>
+    </header>
+    <main class="main">
+        <div id="content">
+            <!--Adicionando registros na nossa página-->
+            <h3 class="subtitle">Estoque de produtos eletrônicos</h3>
+
+            <!--Área destinada para editar/modificar os registros -->
+            <div id="spoiler" role="aria-hidden">
+                <form action="javascript:void(0);" method="POST" id="saveEdit">
+                    <div class="container" id="container-edit">
+                        <div class="container-fields">
+                            <label for="edit-name" class="label-field">Produto</label>
+                            <input type="text" id="edit-name" class="field" placeholder="Nome do produto">
+                        </div>
+                        <div class="container-fields">
+                            <label for="edit-value" class="label-field">Valor Unitário</label>
+                            <input type="number" id="edit-value" class="field" step="0.01"
+                                placeholder="Valor do produto">
+                        </div>
+                        <div class="container-fields">
+                            <label for="edit-ammount" class="   label-field">Quantidade</label>
+                            <input type="number" id="edit-ammount" class="field" placeholder="Quantidade">
+                        </div>
+                        <div class="container-fields" id="container-edit">
+                            <input type="submit" value="Editar" id="btn-edit" />
+                            <a id="close" onclick="CloseInput()" aria-label="Close">&#10006;</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="new-and-counter">
+                <a href="#" class="new" onclick="Modal.open()">+ Novo item</a>
+                <!--Contador de Registros-->
+                <small id="counter"></small>
+            </div>
+
+            <!--Criando uma área com a tabela para mostrar os registros armazenados-->
+            <table border="0" class="data-table">
+                <!--Criando uma linha na tabela-->
+                <thead>
+                    <tr class="columns">
+                        <th class="column">Nome</th>
+                        <th class="column">Preço</th>
+                        <th class="column">Quantidade</th>
+                        <th class="column">Total</th>
+                        <th class="column"></th>
+                        <th class="column"></th>
+                    </tr>
+                </thead>
+                <tr>
+                    <tbody id="products">
+                </tr>
+            </table>
+
+            <div>
+                <h3 class="history">Gravar os dados em um arquivo de Estoque.txt</h3>
+                <button onclick="app.save()" id="save" class="button">Salvar</button>
+            </div>
+
+        </div>
+    </main>
+    <div class="modal-overlay">
+        <div class="modal">
+            <h2 class="modal-title">Novo Item</h2>
+            <form action="javascript:void(0);" method="POST" id="form">
+                <div class="modal-container">
+                    <div class="container-fields">
+                        <!-- <label for="add-name" class="label-field">Produto</label> -->
+                        <input type="text" id="add-name" class="field" placeholder="Nome do produto">
+                    </div>
+                    <div class="container-fields">
+                        <!-- <label for="add-name" class="label-field">Valor Unitário</label> -->
+                        <input type="number" id="unitary-value" class="field" step="0.01" placeholder="0,00">
+                    </div>
+                    <div class="container-fields">
+                        <!-- <label for="add-name" class="   label-field">Quantidade</label> -->
+                        <input type="number" id="ammount" class="field" placeholder="Quantidade">
+                    </div>
+                    <div class="container-fields" id="input-group">
+                        <input type="submit" value="Adicionar" id="add-item" class="button" onclick="app.add()">
+                        <button class="button" id="cancel" onclick="Modal.close()">Cancelar</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <!--Desenvolvendo as funções dentro do JavaScript para gerar o nosso CRUD-->
+
+    <!-- <script type="text/javascript" src="../js/index.js"></script> -->
+    <script type="text/javascript" src="./saveFile.js"></script>
+</body>
+
+</html>
